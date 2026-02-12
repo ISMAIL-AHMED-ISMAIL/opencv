@@ -2,14 +2,20 @@ import streamlit as st
 from streamlit_webrtc import webrtc_streamer
 import cv2
 import mediapipe as mp
+# إضافة هذا السطر لحل مشكلة الـ AttributeError
+import mediapipe.python.solutions.hands as mp_hands
+import mediapipe.python.solutions.drawing_utils as mp_draw
 import av
 
-# إعدادات MediaPipe
-mp_hands = mp.solutions.hands
-hands = mp_hands.Hands(static_image_mode=False, max_num_hands=2, min_detection_confidence=0.5)
-mp_draw = mp.solutions.drawing_utils
-
 st.title("Hand Tracking Live 🖐️")
+
+# إعداد النموذج بالطريقة الجديدة
+hands = mp_hands.Hands(
+    static_image_mode=False, 
+    max_num_hands=2, 
+    min_detection_confidence=0.5,
+    min_tracking_confidence=0.5
+)
 
 def video_frame_callback(frame):
     img = frame.to_ndarray(format="bgr24")
@@ -25,5 +31,4 @@ def video_frame_callback(frame):
 
     return av.VideoFrame.from_ndarray(img, format="bgr24")
 
-# تشغيل الكاميرا في المتصفح
 webrtc_streamer(key="hand-tracking", video_frame_callback=video_frame_callback)
