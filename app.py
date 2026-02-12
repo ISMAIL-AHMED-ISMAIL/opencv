@@ -1,20 +1,12 @@
 import streamlit as st
-from streamlit_webrtc import webrtc_streamer
 import cv2
-import av
+import numpy as np
 
-st.title("تجربة الكاميرا البسيطة 📸")
-st.write("لو شفت صورتك أبيض وإسود، يبقى إنت كدة برمجت أول تطبيق رؤية حاسوبية!")
+st.title("تحليل صورة العربية🚗")
+file = st.file_uploader("ارفع صورة العربية من موبايلك")
 
-def video_frame_callback(frame):
-    # تحويل الفريم لمصفوفة بكسلات
-    img = frame.to_ndarray(format="bgr24")
-    
-    # تحويل الصورة لأبيض وإسود (Gray)
-    gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    
-    # نرجع الصورة بعد التعديل عشان تتعرض في الموقع
-    return av.VideoFrame.from_ndarray(gray_img, format="gray")
-
-# سطر واحد بيشغل الكاميرا في المتصفح
-webrtc_streamer(key="simple-camera", video_frame_callback=video_frame_callback)
+if file:
+    img = cv2.imdecode(np.frombuffer(file.read(), np.uint8), 1)
+    st.image(img, channels="BGR", caption="هذه هي الصورة التي قرأها opencv")
+    st.subheader("مصفوفه بكسلات الصوره (الارقام):")
+    st.write(img)
