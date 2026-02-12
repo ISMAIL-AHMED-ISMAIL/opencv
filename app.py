@@ -10,4 +10,4 @@ if file:
     st.image(img, channels="BGR", caption="هذه هي الصورة التي قرأها opencv")
     st.subheader("مصفوفه بكسلات الصوره (الارقام):")
     st.text(str(img))
-    st.write(img)
+    st.write(f"أبعاد هذه المصفوفة هي: {img.shape}")
