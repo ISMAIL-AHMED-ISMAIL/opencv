@@ -9,5 +9,5 @@ if file:
     pixels = img.size
     dimensions = img.shap
     st.image(img, channels="BGR", caption="ERROR")
-    st.write(f"Number of pixels: "{pixels}")
-    st.write(f"Dimensions: "{dimensions}")
+    st.write(f"Number of pixels: {pixels}")
+    st.write(f"Dimensions: {dimensions}")
